@@ -3,28 +3,23 @@ const express = require('express');
 const app = express();
 
 
-app.get('/products', (req, res) => {
-    res.send('List of Products');
+app.get('/', (req, res) => {
+    res.send('Heavy is the crown');
 });
 
-app.post('/products', (req, res) => {
-    res.send('Creating Products');
+app.get('/miarchivo', (req, res) => {
+    res.sendFile('Actions.png', {
+        root: __dirname
+    });
 });
 
-app.put('/products', (req, res) => {
-    res.send('Updating Products');
+app.get('/user', (req, res) => {
+    res.json({"name":"crown"});
 });
 
-app.delete('/products', (req, res) => {
-    res.send('Deleting Products');
+app.get('/isAlive', (req, res) => {
+    res.sendStatus(204);
 });
-
-app.patch('/products', (req, res) => {
-    res.send('Updating some Product');
-});
-
-
-
 
 app.listen(3500);
 
