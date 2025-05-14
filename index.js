@@ -2,22 +2,29 @@ const express = require('express');
 
 const app = express();
 
-app.get('/', (req, res) => {
-    res.send('Dota');
+
+app.get('/products', (req, res) => {
+    res.send('List of Products');
 });
 
-app.get('/example', (req, res) => {
-    res.send('Example');
+app.post('/products', (req, res) => {
+    res.send('Creating Products');
+});
+
+app.put('/products', (req, res) => {
+    res.send('Updating Products');
+});
+
+app.delete('/products', (req, res) => {
+    res.send('Deleting Products');
+});
+
+app.patch('/products', (req, res) => {
+    res.send('Updating some Product');
 });
 
 
-app.get('/dizzy', (req, res) => {
-    res.send('Dizzy');
-});
 
-app.use((req, res) => {
-    res.status(404).send('Not found');
-});
 
 app.listen(3500);
 
