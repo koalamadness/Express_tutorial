@@ -1,55 +1,30 @@
 const express = require('express');
+const morgan = require('morgan');
 
 const app = express();
 
+app.use(express.json());
+app.use(morgan('dev'));
 
-app.all('/all', (req, res) => {
-
-    res.send(`DOTA`);
-});
-
-app.get('/hello/:user', (req, res) => {
-    console.log(req.query.x);
-    console.log(req.query.y); 
-    const x = parseInt(req.query.x);
-    const y = parseInt(req.query.y);
-    if(x && y){
-            res.send(`New user x= ${x} y= ${y} add= ${x+y} ${req.params.user.toLowerCase()} ${req.params.user} `);
-    } else{
-        res.send('Jaimico');
-    }
-  
-});
-
-app.get('/add/:x/:y', (req, res) => {
-    const {x, y} = req.params;
-    const result = parseInt(x) + parseInt(y);
-    res.send(`Result: ${result}`);
-    
-});
-
-app.get('/hello/:user/photo', (req, res) => {
-    if(req.params.user === "jaimico") {
-        return res.sendFile('./Actions.png', {
-            root: __dirname
-        });
-    }
-
-    res.send(`${req.params.user} access not allowed`);
+app.all('/about', (req, res) => {
+    console.log(req.body);
+    res.send(`about`);
 });
 
 
-app.get('/user/:user/age/:age', (req, res) => {
-    const age = parseInt(req.params.age);
-    if(age >= 18){
-        res.send(`The user ${req.params.user} is ${age} years old and is an adult`);
+app.use((req, res, next) => {
+
+    if(req.query.login === 'jaimico'){
+        next();
     }
     else{
-        res.send(`The user ${req.params.user} is ${age} years old and is a minor`);
+        res.send("Nel");
     }
-    
 });
 
+app.get('/all', (req, res) => {
+    res.send(`DOTA`);
+});
 
 
 app.listen(3500);
