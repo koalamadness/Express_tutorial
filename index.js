@@ -4,7 +4,16 @@ const app = express();
 
 
 app.get('/hello/:user', (req, res) => {
-    res.send(`New user ${req.params.user.toLowerCase()} ${req.params.user} `);
+    console.log(req.query.x);
+    console.log(req.query.y); 
+    const x = parseInt(req.query.x);
+    const y = parseInt(req.query.y);
+    if(x && y){
+            res.send(`New user x= ${x} y= ${y} add= ${x+y} ${req.params.user.toLowerCase()} ${req.params.user} `);
+    } else{
+        res.send('Jaimico');
+    }
+  
 });
 
 app.get('/add/:x/:y', (req, res) => {
@@ -35,3 +44,9 @@ app.get('/user/:user/age/:age', (req, res) => {
     }
     
 });
+
+
+
+app.listen(3500);
+
+console.log('Perrida en ${3500}');
