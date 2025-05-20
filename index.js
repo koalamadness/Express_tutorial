@@ -3,6 +3,11 @@ const express = require('express');
 const app = express();
 
 
+app.all('/all', (req, res) => {
+
+    res.send(`DOTA`);
+});
+
 app.get('/hello/:user', (req, res) => {
     console.log(req.query.x);
     console.log(req.query.y); 
