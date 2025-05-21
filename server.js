@@ -2,16 +2,22 @@ const express = require('express');
 const morgan = require('morgan');
 
 const app = express();
+
+app.set('appName', 'JaimicoCourse');
+app.set('port', 3500);
+app.set('case sensitive routing', true);
+
+app.use(morgan('dev'));
+app.use(express.json());
+
 let products = [
     {
         id: 1,
         name: "uriel",
         price: 200
     } 
-        ]
-
-app.use(morgan('dev'));
-app.use(express.json());
+        ];
+    
 
 app.get('/products', (req, res) => {
     res.json(products);
@@ -71,6 +77,8 @@ app.get('/products/:id', (req, res) => {
 });
 
 
-app.listen(3500);
+const port = app.get('port');
 
-console.log('Perrida en ${3500}');
+app.listen(port);
+
+console.log(`Perrida de ${app.get('appName')} en ${port}`);
