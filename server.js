@@ -25,6 +25,7 @@ app.post('/products', (req, res) => {
 });
 
 app.put('/products/:id', (req, res) => {
+    const newData = req.body;
     const productFound = products.find(
         (product) => product.id === parseInt(req.params.id)
     );
@@ -34,10 +35,11 @@ app.put('/products/:id', (req, res) => {
         "message": "Not Found"
     });
 
-    productFound.name = req.body.name;
-    productFound.price = req.body.price;
+    products = products.map(p => p.id === parseInt(req.params.id) ? {...p, ...newData}:p);
 
-    res.send(`Updating product`);
+    res.json({
+        "message": "Updated successfully"
+    });
 });
 
 app.delete('/products/:id', (req, res) => {
