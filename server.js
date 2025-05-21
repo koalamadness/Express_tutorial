@@ -2,7 +2,7 @@ const express = require('express');
 const morgan = require('morgan');
 
 const app = express();
-const products = [
+let products = [
     {
         id: 1,
         name: "uriel",
@@ -18,17 +18,41 @@ app.get('/products', (req, res) => {
 });
 
 app.post('/products', (req, res) => {
+    console.log(req.body);
     const newProduct = {...req.body, id: products.length + 1};
     products.push(newProduct);
     res.send(newProduct);
 });
 
-app.put('/products', (req, res) => {
-    res.send(`Updating products`);
+app.put('/products/:id', (req, res) => {
+    const productFound = products.find(
+        (product) => product.id === parseInt(req.params.id)
+    );
+
+    if (!productFound) 
+        return res.status(404).json({
+        "message": "Not Found"
+    });
+
+    productFound.name = req.body.name;
+    productFound.price = req.body.price;
+
+    res.send(`Updating product`);
 });
 
-app.delete('/products', (req, res) => {
-    res.send(`Deleting products`);
+app.delete('/products/:id', (req, res) => {
+    const productFound = products.find(
+        (product) => product.id === parseInt(req.params.id)
+    );
+
+    if (!productFound) 
+        return res.status(404).json({
+        "message": "Not Found"
+    });
+
+    products  = products.filter(p => p.id !== parseInt(req.params.id));
+
+    res.sendStatus(204);
 });
 
 app.get('/products/:id', (req, res) => {
@@ -36,7 +60,8 @@ app.get('/products/:id', (req, res) => {
         return product.id == req.params.id;
     });
 
-    if (!productFound) return res.status(404).json({
+    if (!productFound) 
+        return res.status(404).json({
         "message": "Not Found"
     });
     console.log(productFound);
